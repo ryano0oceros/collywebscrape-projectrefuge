@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gocolly/colly"
 )
@@ -27,6 +28,11 @@ func main() {
 		"https://en.wikipedia.org/wiki/Android_(robot)",
 	}
 
+	measureExecutionTime(func() { scrapePages(urls) }, "Scraping pages")
+
+}
+
+func scrapePages(urls []string) {
 	c := colly.NewCollector()
 
 	c.OnHTML("body", func(e *colly.HTMLElement) {
@@ -35,7 +41,7 @@ func main() {
 			Text: e.ChildText("p"),
 		}
 
-		file, err := os.OpenFile("output.jsonl", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		file, err := os.OpenFile("output.jl", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			fmt.Println("Error opening file:", err)
 			return
@@ -55,4 +61,11 @@ func main() {
 	for _, url := range urls {
 		c.Visit(url)
 	}
+}
+
+func measureExecutionTime(f func(), label string) {
+	start := time.Now()
+	f()
+	elapsed := time.Since(start)
+	fmt.Printf("%s took %s\n", label, elapsed)
 }
