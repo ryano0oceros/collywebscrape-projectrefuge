@@ -21,7 +21,7 @@ To run the project, you can use the following command:
 go run main.go
 ```
 
-This will start the web scraper and scrape the data from the website. The data will be saved to a file called `data.csv`.
+This will start the web scraper and scrape the data from the website. The data will be saved to a file called `output.jl`.
 
 ## Outputs
 
